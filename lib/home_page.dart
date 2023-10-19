@@ -1,46 +1,42 @@
-import 'package:flutter/material.dart';
-import 'package:viacepapp/consulta_cep.dart';
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:viacepapp/consulta_cep.dart';
+import 'package:viacepapp/model/viacep_model.dart';
+import 'package:viacepapp/repositories/viacep_repository.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final cepEC = TextEditingController();
-    String endereco = '';
-    String bairro = '';
-    String cidade = '';
-    String estado = '';
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Endereços'),
+        title: const Text('Endereços de Entrega'),
         backgroundColor: Colors.amberAccent,
       ),
       body: Center(
         child: ListView(
-          children: [
-            Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    controller: cepEC,
-                  ),
-                  Text(endereco),
-                  Text(bairro),
-                  Text(cidade),
-                  Text(estado),
-                ],
-              ),
-            ),
+          padding: const EdgeInsets.all(16),
+          children: const [
+            Text("Endereço, número"),
+            Text("Rua"),
+            Text("Bairro"),
+            Text("Cidade"),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          
+          Navigator.push(context,
+              MaterialPageRoute(builder: ((context) => const ConsultaCep())));
         },
         tooltip: 'Novo Endereço',
         child: const Icon(Icons.add),

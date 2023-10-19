@@ -1,51 +1,73 @@
 import 'dart:convert';
 
 class ViacepModel {
-  String? _cep;
-  String? _logradouro;
-  String? _bairro;
-  String? _cidade;
-  String? _estado;
+  // criando classe e seus atributos
+
+  String cep;
+  String logradouro;
+  String? complemento;
+  String bairro;
+  String localidade;
+  String uf;
+  String ibge;
+  String? gia;
+  String ddd;
+  String siafi;
+
+  // construtor da classe
 
   ViacepModel({
-    String? cep,
-    String? logradouro,
-    String? bairro,
-    String? cidade,
-    String? estado,
-  }) {
-    if (cep != null) {
-      _cep = cep;
-    }
-    if (logradouro != null) {
-      _logradouro = logradouro;
-    }
-    if (bairro != null) {
-      _bairro = bairro;
-    }
-    if (cidade != null) {
-      _cidade = cidade;
-    }
-    if (estado != null) {
-      _estado = estado;
-    }
-  }
+    required this.cep,
+    required this.logradouro,
+    this.complemento,
+    required this.bairro,
+    required this.localidade,
+    required this.uf,
+    required this.ibge,
+    this.gia,
+    required this.ddd,
+    required this.siafi,
+  });
 
-  ViacepModel.fromJson(Map<String, dynamic> json) {
-    _cep = json['cep'];
-    _logradouro = json['logradouro'];
-    _bairro = json['bairro'];
-    _cidade = json['localidade'];
-    _estado = json['uf'];
-  }
-
-  Map<String, dynamic> toJson() {
+  //toMap()
+  //metodo que pega o nosso objeto Telefone e transforma em um Objeto Map<String, dynamic>
+  Map<String, dynamic> toMap() {
     return {
-      'cep': _cep,
-      'logradouro': _logradouro,
-      'bairro': _bairro,
-      'localidade': _cidade,
-      'uf': _estado,
+      'cep': cep,
+      'logradouro': logradouro,
+      'complemento': complemento,
+      'bairro': bairro,
+      'localidade': localidade,
+      'uf': uf,
+      'ibge': ibge,
+      'gia': gia,
+      'ddd': ddd,
+      'siafi': siafi,
     };
+  }
+
+  //toJson
+  //metodo que pega um Map<String, dynamic> e transforma em um json pelo pacote dart:convert (jsonEncode)
+  String toJson() => jsonEncode(toMap());
+
+  factory ViacepModel.fromMap(Map<String, dynamic> map) {
+    return ViacepModel(
+      cep: map['cep'] ?? '',
+      logradouro: map['logradouro'] ?? '',
+      bairro: map['bairro'] ?? '',
+      localidade: map['localidade'] ?? '',
+      uf: map['uf'] ?? '',
+      ibge: map['ibge'] ?? '',
+      ddd: map['ddd'] ?? '',
+      siafi: map['siafi'] ?? '',
+    );
+  }
+
+  factory ViacepModel.fromJson(String json) =>
+      ViacepModel.fromMap(jsonDecode(json));
+
+  @override
+  String toString() {
+    return "CEP ($cep): $logradouro, $bairro, $localidade - $uf";
   }
 }
